@@ -21,6 +21,17 @@ sfil='../rail308file'
 
 
 #  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo << 'BLOCKCOMMENT' 
+
+Usage:
+
+chmod +x rmksh/crail348b1/crail348b1rmk.sh 
+ 
+rmksh/crail348b1/crail348b1rmk.sh drail348b2
+
+
+BLOCKCOMMENT
+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # parameters.
 
@@ -30,7 +41,7 @@ set +vx
   echo ;
   echo 'Invalid parameters.'
   echo '  Usage: eg:  .......rmk.sh project_name'
-  echo '  Usage: eg:  crail348b1rmk.sh drail348b1'
+  echo '  Usage: eg:  rmksh/crail348b1rmk.sh drail348b1'
   echo '      These are rails app creator scripts.'
   echo '        project_name is the name you want to give the generated rails app.'
   echo ;
@@ -50,6 +61,16 @@ fi
 export mpwd=$PWD
 export mhome=$HOME
 
+
+# stop if folder already exists..
+
+if [  -d "$appn" ]; then
+  # Control will enter here if DIRECTORY  exists.
+  set +vx
+  echo 'Error 8!  - app name folder already exists.'
+  #seco=110 ; read -t $seco -p "Hit ENTER or wait $seco seconds"
+  exit 8
+fi
 
 
 
@@ -782,10 +803,6 @@ END
 
 # end block comment ===============================
 } 
-
-
-
-
 
  
 
