@@ -1,0 +1,63 @@
+
+
+https://github.com/bigtunacan/rails-jquery-autocomplete/issues/75
+
+
+
+
+I would like to require that a selection from the suggestion list be used as the final value entered.
+
+I see:  [https://github.com/bigtunacan/rails-jquery-autocomplete#running-custom-code-on-selection](https://github.com/bigtunacan/rails-jquery-autocomplete#running-custom-code-on-selection)
+
+and I looked at:
+[this ](http://stackoverflow.com/questions/18720359/jquery-autocomplete-force-choice)
+[this](http://jsfiddle.net/7KdZP/2/)
+[and this ](http://stackoverflow.com/questions/11681292/jquery-autocomplete-how-to-force-selection-from-list-keyboard)
+
+I put this in `product1.js`
+
+```
+$('#type_name').bind('railsAutocomplete.select', function(event, data){
+    focus: function(e, ui) {
+      return false;
+  }
+});
+```
+I get an error:  `Uncaught SyntaxError: Unexpected token (` for line 2.
+
+I don't seem to understand how to do this, or even if it can be done this way or any other way.
+
+Any thoughts would be much appreciated.
+
+
+==
+
+
+I was reading some posts and tried this in product1.js :
+
+```
+$(function() {
+  
+  // run when eventlistener is triggered
+  // http://stackoverflow.com/questions/6431459/jquery-autocomplete-trigger-change-event
+  //
+  $("#product_type_name").on( "autocompletechange", function(event,data) {
+     // post value to console for validation
+     console.log("Item is: ", $(this).val());
+
+    // if item user typed in the input box is not in the list of suggestions, it will be cleared out. The user must select an item.
+    if (!data.item) {
+        this.value = '';
+        console.log('> Item selected is:', data.item);
+        }
+        
+    });   
+    console.log ("msg.. 1012")  
+     
+});
+```
+
+It is working. 
+Is what I have done OK or poorly done?
+
+
