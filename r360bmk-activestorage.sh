@@ -13,6 +13,8 @@ follow this, exceptions below..
 
   https://afreshcup.com/home/2017/07/23/activestorage-samples
 
+      ref. https://www.engineyard.com/blog/active-storage
+
 
 rails new rac360d
 
@@ -150,13 +152,33 @@ no works..
    <% if @user.avatar %>
       <li><%= ( image_tag(url_for(@user.avatar))  ) unless @user.avatar.nil %></li>
    <% end %>
-   
+ 
+
+<p>
+  <%#= Can't resolve image into URL: to_model delegated to attachment, but attachment is nil %>
+  <%= image_tag @user.avatar %>
+<p>
+
+
+ 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+works for documents..
+
+<p>
+  <strong>Documents:</strong>
+  <ul>
+    <% @user.documents.each do |document| %>
+      <li><%= link_to document.blob.filename, url_for(document) %></li>
+    <% end %>
+  </ul>
+<p>
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
