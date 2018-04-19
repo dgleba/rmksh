@@ -143,8 +143,14 @@ ruby $r1tmp $filetarg > $filetarg.tmp ; cat $filetarg.tmp ; cp $filetarg.tmp $fi
 
 ###  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+show.html.erb
 
+no works..
 
+   <% if @user.avatar %>
+      <li><%= ( image_tag(url_for(@user.avatar))  ) unless @user.avatar.nil %></li>
+   <% end %>
+   
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
