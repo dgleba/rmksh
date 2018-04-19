@@ -13,8 +13,9 @@ follow this, exceptions below..
 
   https://afreshcup.com/home/2017/07/23/activestorage-samples
 
+  
       ref. https://www.engineyard.com/blog/active-storage
-
+            https://gorails.com/episodes/file-uploading-with-activestorage-rails-5-2
 
 rails new rac360d
 
@@ -177,6 +178,18 @@ works for documents..
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+kinda works..
+
+<p>
+  <strong>Documents:</strong>
+  <ul>
+    <% @user.documents&.each do |document| %>
+      <li><%=  image_tag(document) %></li>
+    <% end %>
+  </ul>
+<p>
+
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
