@@ -12,6 +12,8 @@ on pdata4 sftp://albe@10.4.1.227/srv/share/_mksh/rac360d
 follow this, exceptions below..
 
   https://afreshcup.com/home/2017/07/23/activestorage-samples
+  https://github.com/ffmike/activestorage_sample
+  
 
   
       ref. 
@@ -225,7 +227,7 @@ gem 'mini_magick'
 
 When the browser hits the variant URL, Active Storage will lazy transform the original blob into the format you specified and redirect to its new service location.
 
-<%= image_tag user.avatar.variant(resize: "100x100") %>
+<%= image_tag user.avatar.variant(resize: "150x150") %>
 
 
 
@@ -326,6 +328,147 @@ diff --git a/config/routes.rb b/config/routes.rb
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+https://afreshcup.com/home/2017/07/23/activestorage-samples
+
+
+
+A New Edge Rails Application
+Start by spinning up a simple application with edge rails:
+
+1. Create a new directory and use whatever you like (rvm, rbenv, chruby) to give it a fresh Ruby environment. I used Ruby 2.4.1 in my testing.
+
+2. Install bundler:
+
+  gem install bundler
+3. Create a simple Gemfile in your new directory:
+
+  source 'https://rubygems.org'
+  gem 'rails', git: 'https://github.com/rails/rails.git'
+4. Install Rails and everything it drags in:
+
+  bundle install
+5. Create a new Rails application in the current directory, using the version of Rails you just installed and overwriting the Gemfile:
+
+  bundle exec rails new . --dev --force
+6. Create and start the simplest possible application:
+
+  bundle exec rails g scaffold user name:string
+  bundle exec rails db:create
+  bundle exec rails db:migrate
+  bundle exec rails s
+You should now be able to go to http://localhost:3000/users to create and update users. Yay!
+
+Active Storage with Local File Storage
+
+Let's start by making sure that Active Storage is working without getting the cloud involved:
+
+1. Create a new branch of code:
+
+  git checkout -b local
+2. Install Active Storage to your application:
+
+bundle exec rails activestorage:install
+This will create the storage and tmp/storage directories in your application, copy a default configuration file to config/storage.yml, and create a new migration. The migration builds the active_storage_blobs and active_storage_attachments tables in your database.
+
+3. Update the database schema:
+
+bundle exec rails db:migrate
+4. Set up the development environment to use local storage by adding a line to your development.rb file:
+
+config.active_storage.service = :local
+5. Tell your User model that it has some attached files:
+
+class User < ApplicationRecord
+  has_one_attached :avatar
+  has_many_attached :documents
+  ...
+end
+6. Comment out the amazon, google, microsoft, and mirror sections from the config/storage.yml file. Otherwise, your server won't start, because it will be looking for keys and files that don't exist.
+
+7. Add input fields to app/views/users/_form.html.erb:
+
+  <div class="field">
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar %>
+  </div>
+
+  <div class="field">
+    <%= form.label :documents %>
+    <%= form.file_field :documents, multiple: true %>
+  </div>
+8. Add controls to app/views/users/show.html.erb to display the data
+
+<p>
+  <%= image_tag(url_for(@user.avatar)) %>
+<p>
+
+<p>
+  <strong>Documents:</strong>
+  <ul>
+    <% @user.documents.each do |document| %>
+      <li><%= link_to document.blob.filename, url_for(document) %></li>
+    <% end %>
+  </ul>
+<p>
+9. Update your users controller to attach the files:
+
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(user_params)
+    avatar = params[:user][:avatar]
+    documents = params[:user][:documents]
+
+    respond_to do |format|
+      if @user.save
+        if avatar
+          @user.avatar.attach(avatar)
+        end
+        if documents
+          @user.documents.attach(documents)
+        end
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /users/1
+  # PATCH/PUT /users/1.json
+  def update
+    avatar = params[:user][:avatar]
+    documents = params[:user][:documents]
+
+    respond_to do |format|
+      if @user.update(user_params)
+        if avatar
+          @user.avatar.attach(avatar)
+        end
+        if documents
+          @user.documents.attach(documents)
+        end
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+10. Restart your application. You should now be able to add avatars and documents to users, and retrieve them via the show view.
+
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
