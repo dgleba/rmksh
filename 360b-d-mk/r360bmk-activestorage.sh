@@ -9,7 +9,7 @@ rails active storage
 on pdata4 sftp://albe@10.4.1.227/srv/share/_mksh/rac360d
 
 
-follow this, exceptions below..
+follow this, with  exceptions below..
 
   https://afreshcup.com/home/2017/07/23/activestorage-samples
   https://github.com/ffmike/activestorage_sample
