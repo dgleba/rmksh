@@ -3,25 +3,17 @@
  # set -e will exit on first error. so set -vxe..
 date ; set +vx  ; set -vx ; # echo off, then echo on
 
+#
 # this
 #   rails_admin  material theme tests
 #
-
-# usage:
-# if appn = rail281j then..
-# input files will be in var/share203/rail281file folder.
-# cd /home/albe/share203
-#       rail347a4mksh/rail347a4-mk.sh
-# The output will be that it creates  var/share203/rail281j/*
 #
-#   rail347a4mksh/rail347a6-mk.sh
+# usage:
+#
+#   ./rail348a31mk.sh 2>&1 | tee -a rail348a31mk.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
-
-
-appn='rail347a6'
-
-notused,sfil='../rail308file'
+appn='rail348a31'
 
 
 
@@ -33,7 +25,7 @@ notused,sfil='../rail308file'
 # new rails app  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ruby -v ; rails -v
-rails _4.2.7.1_ new $appn
+rails _5.2.1_ new $appn
 
 
 if [ ! -d "$appn" ]; then
@@ -50,8 +42,7 @@ git init
 git add -A # Add all files and commit them
   git commit -m "Before any changes"
 
-  
-  
+   
   
   
 ### gemfile.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,8 +64,13 @@ echo "gem 'rails_admin_material'" >> Gemfile
 
 
 echo "gem 'faker'" >> Gemfile
-echo "gem 'populator'" >> Gemfile
 
+# 2018-09-21 error:  populate NoMethodError: undefined method `sanitize' 
+#echo "gem 'populator'" >> Gemfile
+#
+# solution..
+# https://fulvi0.github.io/fulvi0/2017/how-to-populate-db/
+echo "gem 'populator', :github => 'fulvi0/populator'">> Gemfile
 
 echo "# " >> Gemfile
 
@@ -117,7 +113,15 @@ git commit -m "scaffold"
 
 #rake db:reset
 rake db:drop
+
+
+bin/rails active_storage:install:migrations
+
+
 rake db:migrate
+
+bin/rails db:migrate RAILS_ENV=development
+ 
 #rake db:seed
 
 
@@ -143,7 +147,8 @@ namespace :db do
 end
 HEREDOC
 
-rake db:populate
+# works, but change to rails.. rake db:populate
+rails db:populate
 
 sleep 2
 git add -A # Add all files and commit them
@@ -287,7 +292,7 @@ git commit -m "disable turbolinks"
 ### enable select2 .. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
-function notusedcomments() {
+function comments21() {
 # begin block comment =============================
 : <<'END'
 

@@ -1,0 +1,17 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Title:  .
+-----------------------2018-04-18[Apr-Wed]18-33PM
+
+
+use rmksh github repo
+
+put it in _rmksh or _mksh folder
+
+
+app created by it are in  _mksh
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
