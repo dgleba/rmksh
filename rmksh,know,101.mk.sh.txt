@@ -9,7 +9,7 @@ use rmksh github repo
 put it in _rmksh or _mksh folder
 
 
-app created by it are in  _mksh
+apps created by it are in  _mksh
 
 
 
