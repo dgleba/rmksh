@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Pdate:</strong>
+  <%= @user.pdate %>
+</p>
+
+<p>
+  <strong>Active status:</strong>
+  <%= @user.active_status %>
+</p>
+
+<p>
+  <strong>Sort:</strong>
+  <%= @user.sort %>
+19
+----------added line
+20
+19
+20
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

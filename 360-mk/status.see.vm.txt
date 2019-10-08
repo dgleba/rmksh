@@ -1,0 +1,43 @@
+
+----------------------------------------------------
+Title:  .
+-----------------------2019-10-07[Oct-Mon]19-17PM
+
+sftp://pmdsdata4/srv/share/_mksh/r360f-mk-activestorage.sh
+
+
+----------------------------------------------------
+
+
+
+2019-10-06 23:25 -rw-rw-r-- /srv/share/_mksh/rac360f3/app/views/users/show.html.erb
+2019-10-06 23:29 -rwxrwxr-x /srv/share/_mksh/r360f-mk-activestorage.sh
+albe@pmdsdata4:/srv$
+
+
+38         /srv/share/_mksh/rac360f
+
+40         /srv/share/ci/ci350a
+43.25      /var/www/html/dkr378php
+44         /srv/share/_mksh/rac360e
+51         /srv/web/brail347a22
+63         /srv/share/test/brail347a22
+64.25      /srv/share/carlsona
+64.25      /srv/web/railci350
+65.5       /srv/share/_mksh/rac360d
+71.25      /srv/share/test
+74.75      /srv/dkr/394superset_dkr
+82         /srv/share/hrapp361
+104.25     /srv/share/lpa346
+146        /srv/share/_mksh/rmksh
+158        /srv/share/_mksh
+176.5      /srv/dkr
+286        /srv
+
+350        /srv/share/_mksh/rac360f3
+
+530        /srv/share/test/bashrail
+
+albe@pmdsdata4:~$ locate -0 a | xargs -r0 ls -ald --time-style=long-iso |  awk {'print $6" " $7" " $8" "'} | grep -v '.git/' | grep -v tmp/ | sort -n  >~/0/lcout.txt
+^C
+albe@pmdsdata4:~
