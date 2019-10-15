@@ -13,18 +13,37 @@ date ; set +vx  ; set -vx ; # echo off, then echo on
 #       rail281file/rail281j-mk.sh
 # The output will be that it creates  var/share203/rail281e/*
 #
-#   rail281file/rail281b2-mk.sh
+#   a=rail281j-mk ; rail281file/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
-appn='rail281j5'
+appn='rail281j8'
 
 sfil='../rail281file'
 
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
 # new rails app  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-rails new $appn
-cd $appn
-pwd
+
+gem install rails -v 5.1.6 --no-document
+
+
+rails  _5.1.6_ new $appn
+
+if [ ! -d "$appn" ]; then
+  # Control will enter here if DIRECTORY doesn't exist.
+  set +vx
+  echo 'Error 9!  - app not created. folder doesn`t exist after attempting to create it.'
+  #seco=110 ; read -t $seco -p "Hit ENTER or wait $seco seconds"
+  exit 9
+fi
+cd $appn ; pwd
+
 
 rm -rf .git 
 git init
@@ -88,7 +107,7 @@ rake db:migrate ; rake db:seed
 # app...js  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #eg:  sed -i '/CLIENTSCRIPT/i \ \ CLIENTSCRIPT2' file  # add line before pattern - include leading spaces like so - escape them.. '\ '  
-sed -i '/require_tree/i  \ //= require jquery-ui/autocomplete \n //= require autocomplete-rails'  app/assets/javascripts/application.js
+sed -i '/require_tree/i  \ //= require jquery-ui \n //= require autocomplete-rails'  app/assets/javascripts/application.js
 
 ###
 
