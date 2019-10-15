@@ -13,10 +13,10 @@ date ; set +vx  ; set -vx ; # echo off, then echo on
 #       rail281file/rail281j-mk.sh
 # The output will be that it creates  var/share203/rail281e/*
 #
-#   a=rail281j-mk ; rail281file/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
+#    cd /srv/file/test/brails/_rmksh ; a=rail281j-mk ; chmod +x rail281file/${a}.sh ; rail281file/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
-appn='rail281j8'
+appn='j14rail281'
 
 sfil='../rail281file'
 
@@ -57,6 +57,7 @@ git add -A # Add all files and commit them
 echo "# https://github.com/bigtunacan/rails-jquery-autocomplete" >> Gemfile
 echo "# https://github.com/yifeiwu/rails4-autocomplete-demo" >> Gemfile
 echo "gem 'rails-jquery-autocomplete'" >> Gemfile
+echo "gem 'jquery-rails'" >> Gemfile
 echo "gem 'jquery-ui-rails'" >> Gemfile
 
 bundle
@@ -107,7 +108,7 @@ rake db:migrate ; rake db:seed
 # app...js  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #eg:  sed -i '/CLIENTSCRIPT/i \ \ CLIENTSCRIPT2' file  # add line before pattern - include leading spaces like so - escape them.. '\ '  
-sed -i '/require_tree/i  \ //= require jquery-ui \n //= require autocomplete-rails'  app/assets/javascripts/application.js
+sed -i '/require_tree/i  \ //= require jquery \n //= require jquery-ui \n //= require autocomplete-rails'  app/assets/javascripts/application.js
 
 ###
 
@@ -159,10 +160,14 @@ line4='  root "products#index"'
 #
 # multiple autocomplete... use this option... 'data-delimiter' => ','
 #
-pattern1='f.text_field :type_name'
-line1='   <%= f.autocomplete_field :type_name, autocomplete_type_name_products_path %>'  
-  sed  -i "0,/$pattern1/s/.*$pattern1.*/$line1\n/" app/views/products/_form.html.erb
-
+pattern1='form.text_field :type_name'
+file21=app/views/products/_form.html.erb
+if ! grep -q "${pattern1}" $file21 ; then 
+  echo nogrep ~164 ; sleep 9 ; exit 9 ; 
+fi
+#line1='   <%= form.autocomplete_field :type_name, autocomplete_type_name_products_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>'  
+line1="   <%= form.autocomplete_field :type_name, autocomplete_type_name_products_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>"
+  sed  -i "0,/$pattern1/s/.*$pattern1.*/$line1\n/" $file21
 
 
 # application.html.erb  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
