@@ -13,12 +13,15 @@ date ; set +vx  ; set -vx ; # echo off, then echo on
 #       rail281file/rail281j-mk.sh
 # The output will be that it creates  var/share203/rail281e/*
 #
-#  Usage:     cd /srv/file/test/brails/_rmksh/rtmp ; a=rail281m-mk ; chmod +x rail281file/${a}.sh ; rail281file/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
+#  Usage:     cd /srv/file/test/brails/mkw/rmksh ; a=rail281m-mk ; chmod +x rail281file2/${a}.sh ; rail281file2/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
-appn='m01rail281'
 
-sfil='../rail281file'
+# edit these variables before running..
+
+appn='m02rail281'
+
+sfil='../rail281file2'
 
 
 
@@ -86,6 +89,9 @@ rails g scaffold Product name type_name comment \
 rails g scaffold Type name active:boolean \
  -f
 
+rails g scaffold CountryOfOrigin name ctype fdate:datetime active_status:integer sort_order:integer -f
+
+
 git add -A # Add all files and commit them
 git commit -m "scaffold"
 
@@ -126,10 +132,20 @@ git add -A # Add all files and commit them
 
 #    just before /head. ...
 #    add...  <%= javascript_include_tag "autocomplete-rails.js" %>'
-pattern1='/head>'
+pattern1='\/head>'
 # some characters are escaped below... \<  \" \>
 line1='  \<%= javascript_include_tag \"autocomplete-rails.js\" %\>'
-sed  -i "/$pattern1/i \ \  $line1\n"  app/views/layouts/application.html.erb
+sed  -ie "/${pattern1}/i $line1\n"  app/views/layouts/application.html.erb
+
+
+
+r1="app/views/layouts/application.html.erb"
+cat << 'HEREDOC' >> $r1
+<hr>
+<%= link_to 'Country of Origin list', country_of_origins_path, class: "btn btn-primary", :style=>'color:red;' %>
+<%= link_to 'Products', products_path, class: "btn btn-primary", :style=>'color:blue;' %>
+<hr>
+HEREDOC
 
 
 # Asset was not declared to be precompiled in production.
@@ -162,7 +178,6 @@ cp $sfil/dgautocomplete.scss app/assets/stylesheets
 # copy the js file..
 
 
-
 r1="app/assets/javascripts/products_ac.js"
 cat << 'HEREDOC' > $r1
 $(function() {
@@ -187,7 +202,40 @@ $(function() {
 HEREDOC
 
 git add -A # Add all files and commit them
-  git commit -m "six"
+  git commit -m "product"
+
+
+--
+
+# copy the js file..
+
+
+r1="app/assets/javascripts/products_ac.js"
+cat << 'HEREDOC' > $r1
+$(function() {
+  
+  // run when eventlistener is triggered
+  // http://stackoverflow.com/questions/6431459/jquery-autocomplete-trigger-change-event
+  //
+  $("#country_of_origin_type_name").on( "autocompletechange", function(event,data) {
+     // post value to console for validation
+     console.log("Item is: ", $(this).val());
+
+    // if item user typed in the input box is not in the list of suggestions, it will be cleared out. The user must select an item.
+    if (!data.item) {
+        this.value = '';
+        console.log('> Item selected is:', data.item);
+        }
+        
+    });   
+    console.log ("msg.. 91017")  
+     
+});
+HEREDOC
+
+git add -A # Add all files and commit them
+  git commit -m "ccjs"
+
 
 
 
@@ -207,7 +255,13 @@ line1='  autocomplete :type, :name, :full => true'
 sed -i "/before_action/a  \  #\n$line1\n"  app/controllers/products_controller.rb 
   
 
+# country_of_origins
+
+line1='  autocomplete :type, :name, :full => true'
+sed -i "/before_action/a  \  #\n$line1\n"  app/controllers/country_of_origins_controller.rb 
   
+
+
 #routes.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -225,6 +279,17 @@ line4='  root "products#index"'
 # replace the entire line matching pattern1...
   sed  -i "0,/$pattern1/s/.*$pattern1.*/#\n$line1\n$line2\n$line3\n$line4\n/" config/routes.rb 
  
+
+# country_of_origins
+
+
+pattern1='resources :country_of_origins'
+line1='  resources :country_of_origins do'
+line2='    get :autocomplete_type_name, :on => :collection'
+line3='  end'
+  sed  -i "0,/$pattern1/s/.*$pattern1.*/#\n$line1\n$line2\n$line3\n/" config/routes.rb 
+ 
+
  
 # view.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -243,6 +308,20 @@ fi
 #line1='   <%= form.autocomplete_field :type_name, autocomplete_type_name_products_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>'  
 line1="   <%= form.autocomplete_field :type_name, autocomplete_type_name_products_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>"
   sed  -i "0,/$pattern1/s/.*$pattern1.*/$line1\n/" $file21
+
+
+
+# country_of_origins
+
+
+pattern1='form.text_field :ctype'
+file21=app/views/country_of_origins/_form.html.erb
+if ! grep -q "${pattern1}" $file21 ; then 
+  echo nogrep ~164 ; sleep 9 ; exit 9 ; 
+fi
+line1="   <%= form.autocomplete_field :type_name, autocomplete_type_name_country_of_origins_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>"
+  sed  -i "0,/$pattern1/s/.*$pattern1.*/$line1\n/" $file21
+
 
 
 
