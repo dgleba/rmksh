@@ -2,9 +2,16 @@
 #cd ; 
 date ; set +vx  ; set -vx ; # echo off, then echo on
 
-# this works.
+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Summary: ?.
 #
-# jquery-autocomplete  autocomplete for rails 4
+# jquery-autocomplete  autocomplete for rails 5.2.3 for countryoforigins and products
+
+
+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 # usage: 
 # copy ..../rail281file/* var/share203/rail281file
