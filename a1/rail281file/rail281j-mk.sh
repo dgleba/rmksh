@@ -16,13 +16,13 @@ date ; set +vx  ; set -vx ; # echo off, then echo on
 #    cd /srv/file/test/brails/_rmksh ; a=rail281j-mk ; chmod +x rail281file/${a}.sh ; rail281file/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
-appn='j14rail281'
+appn='j15rail281'
 
 sfil='../rail281file'
 
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -30,10 +30,10 @@ sfil='../rail281file'
 # new rails app  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-gem install rails -v 5.1.6 --no-document
+gem install rails -v 5.2.3 --no-document
 
 
-rails  _5.1.6_ new $appn
+rails  _5.2.3_ new $appn
 
 if [ ! -d "$appn" ]; then
   # Control will enter here if DIRECTORY doesn't exist.
