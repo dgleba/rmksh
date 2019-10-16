@@ -91,8 +91,6 @@ rails g scaffold Type name active:boolean \
 
 rails g scaffold CountryOfOrigin name ctype fdate:datetime active_status:integer sort_order:integer -f
 
-rails g scaffold Pfeature name fdate:datetime active_status:integer sort_order:integer -f
-
 
 git add -A # Add all files and commit them
 git commit -m "scaffold"
@@ -107,13 +105,6 @@ echo 'Type.create({name: "Mr. Christies"}) '>> db/seeds.rb
 echo 'Type.create({name: "Cities"}) '>> db/seeds.rb
 echo 'Type.create({name: "Three Cities"}) '>> db/seeds.rb
 echo 'Type.create({name: "Carob Charob"}) '>> db/seeds.rb
-
-echo 'Pfeature.create({name: "green"}) '>> db/seeds.rb
-echo 'Pfeature.create({name: "blue"}) '>> db/seeds.rb
-echo 'Pfeature.create({name: "pink"}) '>> db/seeds.rb
-echo 'Pfeature.create({name: "white"}) '>> db/seeds.rb
-
-
 
 #rake db:reset
 rake db:drop:all
