@@ -13,13 +13,13 @@ date ; set +vx  ; set -vx ; # echo off, then echo on
 #       rail281file/rail281j-mk.sh
 # The output will be that it creates  var/share203/rail281e/*
 #
-#  Usage:       cd /srv/file/test/brails/mkw/rmksh ; a=rail281m-mk ; chmod +x rail281file2/${a}.sh ; rail281file2/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
+#  Usage:     cd /srv/file/test/brails/mkw/rmksh ; a=rail281m-mk ; chmod +x rail281file2/${a}.sh ; rail281file2/${a}.sh 2>&1 | tee -a rail_${a}.sh_log$(date +"__%Y-%m-%d_%H.%M.%S").log
 
 
 
 # edit these variables before running..
 
-appn='m04rail281'
+appn='m02rail281'
 
 sfil='../rail281file2'
 
@@ -226,7 +226,7 @@ $(function() {
   // run when eventlistener is triggered
   // http://stackoverflow.com/questions/6431459/jquery-autocomplete-trigger-change-event
   //
-  $("#country_of_origin_ctype").on( "autocompletechange", function(event,data) {
+  $("#country_of_origin_type_name").on( "autocompletechange", function(event,data) {
      // post value to console for validation
      console.log("Item is: ", $(this).val());
 
@@ -266,7 +266,7 @@ sed -i "/before_action/a  \  #\n$line1\n"  app/controllers/products_controller.r
 
 # country_of_origins
 
-line1='  autocomplete :pfeature, :name, :full => true'
+line1='  autocomplete :type, :name, :full => true'
 sed -i "/before_action/a  \  #\n$line1\n"  app/controllers/country_of_origins_controller.rb 
   
 
@@ -294,7 +294,7 @@ line4='  root "products#index"'
 
 pattern1='resources :country_of_origins'
 line1='  resources :country_of_origins do'
-line2='    get :autocomplete_pfeature_name, :on => :collection'
+line2='    get :autocomplete_type_name, :on => :collection'
 line3='  end'
   sed  -i "0,/$pattern1/s/.*$pattern1.*/#\n$line1\n$line2\n$line3\n/" config/routes.rb 
  
@@ -328,7 +328,7 @@ file21=app/views/country_of_origins/_form.html.erb
 if ! grep -q "${pattern1}" $file21 ; then 
   echo nogrep ~164 ; sleep 9 ; exit 9 ; 
 fi
-line1="   <%= form.autocomplete_field :ctype, autocomplete_pfeature_name_country_of_origins_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>"
+line1="   <%= form.autocomplete_field :type_name, autocomplete_type_name_country_of_origins_path , \'min-length\' => 1 , \'data-auto-focus\' => true %>"
   sed  -i "0,/$pattern1/s/.*$pattern1.*/$line1\n/" $file21
 
 
